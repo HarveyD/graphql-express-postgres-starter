@@ -25,21 +25,45 @@ const ProjectType = new GraphQLObjectType({
     })
 });
 
+const UserType = new GraphQLObjectType({
+    name: 'User',
+    fields: () => ({
+        id: { type: GraphQLString },
+        username: { type: GraphQLString },
+        email: { type: GraphQLString },
+        joined: { type: GraphQLString },
+        last_logged_in: { type: GraphQLString },
+    })
+});
+
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
-    fields: {
-        project: {
-            type: ProjectType,
-            args: { id: { type: GraphQLID }},
-            resolve(parentValue, args) {
-                const query = `select * from project where id=${args.id}`;
-
-                return db.one(query).then(res => {
-                    return res;
-                })
-                .catch(err => {
-                    return err;
-                })
+    fields: () => {
+        return {
+            project: {
+                type: ProjectType,
+                args: { id: { type: GraphQLID }},
+                resolve(parentValue, args) {
+                    const query = `select * from project where id=${args.id}`;
+    
+                    return db.one(query).then(res => {
+                        return res;
+                    })
+                    .catch(err => {
+                        return err;
+                    })
+                }
+            },
+            user: {
+                type: UserType,
+                args: { id: { type: GraphQLID }},
+                resolve(parentValue, args) {
+                    const query = `select * from users where id=${args.id}`;
+    
+                    return db.one(query)
+                    .then(res => res)
+                    .catch(err => err)
+                }
             }
         }
     }
