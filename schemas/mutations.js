@@ -15,7 +15,7 @@ const RootMutation = new GraphQLObjectType({
         description: { type: GraphQLString }
       },
       resolve(parentValue, args) {
-        const query = `INSERT INTO project(creator_id, created, title, description) VALUES ($1, $2, $3, $4)`;
+        const query = `INSERT INTO project(creator_id, created, title, description) VALUES ($1, $2, $3, $4) RETURNING title`;
         const values = [
           args.creatorId,
           new Date(),
@@ -24,7 +24,7 @@ const RootMutation = new GraphQLObjectType({
         ];
 
         return db
-          .none(query, values)
+          .one(query, values)
           .then(res => res)
           .catch(err => err);
       }
