@@ -35,4 +35,4 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
-exports.query = RootQuery;
+exports.queries = RootQuery;

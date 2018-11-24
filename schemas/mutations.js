@@ -12,17 +12,15 @@ const RootMutation = new GraphQLObjectType({
       args: {
         creatorId: { type: GraphQLID },
         title: { type: GraphQLString },
-        description: { type: GraphQLString },
-        imgUrl: { type: GraphQLString }
+        description: { type: GraphQLString }
       },
       resolve(parentValue, args) {
-        const query = `INSERT INTO project(creator_id, created, title, description, img_url) VALUES ($1, $2, $3, $4, $5)`;
+        const query = `INSERT INTO project(creator_id, created, title, description) VALUES ($1, $2, $3, $4)`;
         const values = [
           args.creatorId,
           new Date(),
           args.title,
-          args.description,
-          args.imgUrl
+          args.description
         ];
 
         return db
@@ -38,4 +36,4 @@ const RootMutation = new GraphQLObjectType({
   }
 });
 
-exports.mutation = RootMutation;
+exports.mutations = RootMutation;

@@ -3,8 +3,7 @@ const graphql = require("graphql");
 const express = require("express");
 const expressGraphQl = require("express-graphql");
 const { GraphQLSchema } = graphql;
-const query = require("./schemas/query").query;
-const mutation = require("./schemas/mutation").mutation;
+const { query, mutation } = require("./schemas/queries");
 
 const schema = new GraphQLSchema({
   query,
@@ -13,7 +12,7 @@ const schema = new GraphQLSchema({
 
 var app = express();
 app.use(
-  "/graphql",
+  '/',
   expressGraphQl({
     schema: schema,
     graphiql: true
@@ -21,5 +20,5 @@ app.use(
 );
 
 app.listen(3000, () =>
-  console.log("Express GraphQL Server Now Running On localhost:3000/graphql")
+  console.log('GraphQL server running on localhost:3000')
 );
