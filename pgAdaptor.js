@@ -13,4 +13,4 @@ const config = {
 
 const db = pgp(config);
 
-exports.psql = db;
+exports.db = db;
