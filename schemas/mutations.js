@@ -1,6 +1,6 @@
 const graphql = require("graphql");
 const db = require("../pgAdaptor").db;
-const { GraphQLObjectType, GraphQLID, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean } = graphql;
 const { ProjectType } = require("./types");
 
 const RootMutation = new GraphQLObjectType({
@@ -8,7 +8,7 @@ const RootMutation = new GraphQLObjectType({
   type: "Mutation",
   fields: {
     addProject: {
-    type: ProjectType,
+      type: ProjectType,
       args: {
         creatorId: { type: GraphQLID },
         title: { type: GraphQLString },
@@ -25,15 +25,11 @@ const RootMutation = new GraphQLObjectType({
 
         return db
           .none(query, values)
-          .then(res => {
-            console.log("success");
-          })
-          .catch(err => {
-            return err;
-          });
+          .then(res => res)
+          .catch(err => err);
       }
     }
   }
 });
 
-exports.mutations = RootMutation;
+exports.mutation = RootMutation;
